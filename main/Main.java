@@ -5,6 +5,7 @@ import java.util.Scanner;
 import manager.ActivityManager;
 import model.CollegeActivity;
 import model.EnvironmentalData;
+import storage.FileStorage;
 
 public class Main {
 
@@ -13,6 +14,9 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         ActivityManager manager = new ActivityManager();
+
+        // Load activities saved from the previous session
+        FileStorage.load(manager);
 
         // Sample environmental conditions
         EnvironmentalData environment =
@@ -50,6 +54,7 @@ public class Main {
 
                 case 1:
                     addActivity(sc, manager);
+                    FileStorage.save(manager);
                     break;
 
                 case 2:
@@ -58,10 +63,12 @@ public class Main {
 
                 case 3:
                     deleteActivity(sc, manager);
+                    FileStorage.save(manager);
                     break;
 
                 case 4:
                     manager.processNextActivity(environment);
+                    FileStorage.save(manager);
                     break;
 
                 case 5:
@@ -85,6 +92,7 @@ public class Main {
                     break;
 
                 case 10:
+                    FileStorage.save(manager);
                     System.out.println("\nExiting EcoImpact...");
                     break;
 

@@ -1,80 +1,35 @@
 package datastructures;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import model.CollegeActivity;
 
 public class MyLinkedList {
 
-    // Node class
-    private class Node {
-
-        CollegeActivity data;
-        Node next;
-
-        Node(CollegeActivity data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
-
-    private Node head;
-    private int size;
+    private LinkedList<CollegeActivity> list;
 
     // Constructor
     public MyLinkedList() {
-        head = null;
-        size = 0;
+        list = new LinkedList<>();
     }
 
-    // ADD
+    // ADD (to the end)
     public void add(CollegeActivity activity) {
-
-        Node newNode = new Node(activity);
-
-        if (head == null) {
-            head = newNode;
-            size++;
-            return;
-        }
-
-        Node temp = head;
-
-        while (temp.next != null) {
-            temp = temp.next;
-        }
-
-        temp.next = newNode;
-        size++;
+        list.add(activity);
     }
 
-    // DELETE BY ID
+    // DELETE BY ID (removes first match only)
     public boolean delete(int id) {
 
-        if (head == null) {
-            return false;
-        }
+        Iterator<CollegeActivity> it = list.iterator();
 
-        // If first node has the ID
-        if (head.data.getActivityId() == id) {
+        while (it.hasNext()) {
 
-            head = head.next;
-            size--;
-
-            return true;
-        }
-
-        Node temp = head;
-
-        while (temp.next != null) {
-
-            if (temp.next.data.getActivityId() == id) {
-
-                temp.next = temp.next.next;
-                size--;
-
+            if (it.next().getActivityId() == id) {
+                it.remove();
                 return true;
             }
-
-            temp = temp.next;
         }
 
         return false;
@@ -82,51 +37,29 @@ public class MyLinkedList {
 
     // SIZE
     public int size() {
-        return size;
+        return list.size();
     }
 
     // CHECK EMPTY
     public boolean isEmpty() {
-        return size == 0;
+        return list.isEmpty();
     }
 
     // DISPLAY
     public void display() {
 
-        if (head == null) {
+        if (list.isEmpty()) {
             System.out.println("No activities found.");
             return;
         }
 
-        Node temp = head;
-
-        while (temp != null) {
-
-            System.out.println(temp.data);
-
-            temp = temp.next;
+        for (CollegeActivity activity : list) {
+            System.out.println(activity);
         }
     }
 
     // CONVERT TO ARRAY
     public CollegeActivity[] toArray() {
-
-        CollegeActivity[] result =
-                new CollegeActivity[size];
-
-        Node temp = head;
-
-        int index = 0;
-
-        while (temp != null) {
-
-            result[index] = temp.data;
-
-            index++;
-
-            temp = temp.next;
-        }
-
-        return result;
+        return list.toArray(new CollegeActivity[0]);
     }
 }

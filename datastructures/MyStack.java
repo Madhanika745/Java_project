@@ -1,88 +1,52 @@
 package datastructures;
 
+import java.util.Stack;
+
 import model.Decision;
 
 public class MyStack {
 
-    private Decision[] stack;
-
-    private int top;
+    private Stack<Decision> stack;
 
     // Constructor
     public MyStack() {
-
-        stack = new Decision[10];
-
-        top = -1;
+        stack = new Stack<>();
     }
 
     // CHECK EMPTY
     public boolean isEmpty() {
-
-        return top == -1;
-    }
-
-    // GROW STACK
-    private void grow() {
-
-        Decision[] bigger =
-                new Decision[stack.length * 2];
-
-        for (int i = 0; i <= top; i++) {
-
-            bigger[i] = stack[i];
-        }
-
-        stack = bigger;
+        return stack.isEmpty();
     }
 
     // PUSH
     public void push(Decision decision) {
-
-        if (top == stack.length - 1) {
-            grow();
-        }
-
-        top++;
-
-        stack[top] = decision;
+        stack.push(decision);
     }
 
     // DISPLAY
     public void display() {
 
         if (isEmpty()) {
-
-            System.out.println(
-                    "No decision history."
-            );
-
+            System.out.println("No decision history.");
             return;
         }
 
         // Display latest decision first
-        for (int i = top; i >= 0; i--) {
+        for (int i = stack.size() - 1; i >= 0; i--) {
+
+            Decision d = stack.get(i);
 
             System.out.println(
                     "Activity ID: "
-                    + stack[i].getActivityId()
+                    + d.getActivityId()
                     + " | Decision: "
-                    + stack[i].getAction()
+                    + d.getAction()
             );
         }
     }
 
-    // CONVERT TO ARRAY
+    // CONVERT TO ARRAY (oldest first, same as before)
     public Decision[] toArray() {
-
-        Decision[] result =
-                new Decision[top + 1];
-
-        for (int i = 0; i <= top; i++) {
-
-            result[i] = stack[i];
-        }
-
-        return result;
+        return stack.toArray(new Decision[0]);
     }
 }
